@@ -1,0 +1,41 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+def monte_carlo_increment(upper, show_graph, print_last_ten):
+    
+    lower = 1 
+    num = 0 
+    den = 0 
+    current_area = 0
+
+    # holding all the approximations of the area under the curve
+    area_evolved = []
+
+    for j in range(lower, upper + 1):
+        point = np.random.rand(1, 2)
+        if (np.exp((-1) * point[0, 0] ** 2) > point[0, 1]):
+            num = num + 1
+            den = den + 1
+        else:
+            den = den + 1
+        area_evolved.append(num / den)
+        
+    if print_last_ten == 1:
+        print(area_evolved[-11:-1])
+
+    if show_graph == 1:
+        plt.plot(area_evolved)
+        plt.show()
+              
+    return area_evolved
+
+
+# calling to calculate Monte Carlo Integration without the graph and the last 10 elements
+# to generate the graph as well as the last 10 elements change the parameters to 1
+trace = monte_carlo_increment(1000000, 2, 1)
+
+
+# Prints out the average of the last 100 (or potentially customized)
+# elements in the end
+print((np.mean(trace[-1000: -1])))
